@@ -5,7 +5,7 @@ export async function anaylzeRepository(req  :Request , res: Response){
      
     try{
 
-        const {githubURL }  = req.body;
+        const {githubURL}  = req.body;
 
         if(!githubURL){
              return res.status(400).json({
@@ -13,6 +13,11 @@ export async function anaylzeRepository(req  :Request , res: Response){
                  message  :'githubURL is required'
              })
         }
+
+        return res.status(200).json({
+            success : true,
+            message :'URL received successfully'
+        })
 
 
     }

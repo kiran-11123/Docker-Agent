@@ -1,12 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type" : "module",
   "scripts": {
    "build": "tsc -b",
     "watch": "tsc -b --watch",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/app.ts"
   },
   "keywords": [],
   "author": "",
