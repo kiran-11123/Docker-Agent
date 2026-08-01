@@ -92,13 +92,14 @@ export async function GetGithubTree(owner  :string , repo : string , branch  :st
 }
 
 
-export async function getFile(owner : string , repo :string , path : string){
+export async function getFile(owner : string , repo :string , branch : string ,  path : string){
      
     try{
 
         const response = await octokit.rest.repos.getContent({
              owner,
              repo,
+             branch,
              path
         })
 

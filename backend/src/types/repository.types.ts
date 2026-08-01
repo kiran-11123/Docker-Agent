@@ -1,23 +1,51 @@
-export interface RepositoryAnalysis{
+export interface repositoryInfo{
 
-    language :string ,
+    owner : string,
+    repo : string,
+    defaultbranch :string,
+    description?:string | undefined
+}
 
-    frameWork? : string,
-    runtime?: string;
+export interface ImportantFile{
+     
+    //node
+    packageJSon?:string,
+    readme?:string,
+    dockerIgnore?:string,
+    dockerFile ? :string,
+    envExample?:string,
+    
+    //python
+    requirementsTxt?:string,
+    pyprojectToml?:string,
 
-  packageManager?: string;
 
-  buildCommand?: string;
+    //java
 
-  startCommand?: string;
+    pomXml?:string,
+    buildGradle?: string;
 
-  port?: number;
+    //golang
 
-  entryPoint?: string;
+    
+goMod?: string;
 
-  dependencies?: string[];
+    cargoToml?: string;
 
-  hasDatabase?: boolean;
+    composerJson?: string;
 
-  database?: string;
+    nextConfig?: string;
+    viteConfig?: string;
+
+    tsConfig?: string;
+
+
+}
+
+export interface RepositoryContext{
+     
+    repository : repositoryInfo,
+
+    tree :string[],
+    importantFiles : ImportantFile
 }
