@@ -2,14 +2,18 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type" : "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "build": "tsc -b",
+    "watch": "tsc -b --watch",
+    "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/dotenv": "^6.1.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
