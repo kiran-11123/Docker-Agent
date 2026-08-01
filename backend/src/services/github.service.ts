@@ -53,7 +53,14 @@ export async function getRepositroy(owner :string,  repo:string){
           }); 
 
 
-          return response.data;
+         return {
+        name: response.data.name,
+        fullName: response.data.full_name,
+        defaultBranch: response.data.default_branch,
+        language: response.data.language,
+        private: response.data.private,
+        description: response.data.description,
+    };
 
       }
       catch(er){
