@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
-   "build": "tsc -b",
+    "build": "tsc -b",
     "watch": "tsc -b --watch",
     "dev": "tsx watch src/app.ts"
   },
@@ -20,6 +20,7 @@
     "express": "^5.2.1",
     "octokit": "^5.0.5",
     "openai": "^7.3.0",
+    "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

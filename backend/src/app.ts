@@ -3,6 +3,7 @@ import cors from 'cors'
 import agent_router from './routes/agent.routes.js'
 const app = express()
 import {env } from './config/env.js'
+import logger from './logging/logging.js'
 const PORT : number = env.PORT
 
 

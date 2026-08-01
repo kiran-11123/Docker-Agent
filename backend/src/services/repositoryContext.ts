@@ -1,5 +1,5 @@
 import type { RepositoryContext  , ImportantFile } from "../types/repository.types.js";
-
+import logger from "../logging/logging.js";
 import { GetGithubTree , getFile , getRepositroy } from "./github.service.js";
 
 
@@ -8,11 +8,30 @@ export async function buildRepositoryContext(owner :string , repo : string ) :Pr
 
     const repository = await getRepositroy(owner , repo);
 
+    logger.info(`Repository is ${repository}`)
+
+    if(!repository){
+        throw new Error(`Repository ${owner}/${repo} not found`);
+    }
+
     const tree  =await GetGithubTree(owner , repo , repository.defaultBranch);
 
-    const filePaths = tree.map((item : any)=>item.path);
+    const filteredTree = tree.filter((item: any) => {
+    const path = item.path;
 
-    const importantFiles  : ImportantFile = {} as ImportantFile
+    return !(
+        path.includes("node_modules") ||
+        path.includes(".git") ||
+        path.includes("dist") ||
+        path.includes("build") ||
+        path.includes(".next")
+    );
+}); 
+
+    logger.info(`filtered Tree is ${JSON.stringify(filteredTree)}`)
+    const filePaths = filteredTree.map((item : any)=>item.path);
+
+    const importantFiles  : ImportantFile = {}
 
     
     const FilesToRead = [
@@ -84,23 +103,38 @@ export async function buildRepositoryContext(owner :string , repo : string ) :Pr
     ]
 
 
-    for(const file of FilesToRead){
-          
-        if(!filePaths.includes(file.path)) continue;
+  for (const file of FilesToRead) {
 
-        try{
-
-            const content = await getFile(owner , repo , repository.defaultBranch , file.path);
-
-            (importantFiles as any)[file.key] = content;
+    const actualFilePath = filePaths.find((path) =>
+        path.endsWith(file.path)
+    );
 
 
-        }
-        catch(er){
-        console.log(`Unable to read ${file.path}`);
+    if (!actualFilePath) continue;
 
-        }
+
+    try {
+
+        const content = await getFile(
+            owner,
+            repo,
+            repository.defaultBranch,
+            actualFilePath
+        );
+
+
+        (importantFiles as any)[file.key] = content;
+
+
+        logger.info(`Read file ${actualFilePath}`);
+
     }
+    catch(er){
+
+        logger.error(`Unable to read ${actualFilePath}`);
+
+    }
+}
 
 
     return {

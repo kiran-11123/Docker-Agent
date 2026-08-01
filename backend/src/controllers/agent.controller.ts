@@ -1,6 +1,6 @@
 import  type { Request , Response } from "express";
 import { GetGithubTree , getRepositroy , getFile  ,parseGitHubURL } from "../services/github.service.js";
-
+import {CreateDockerFileAgent} from "../agent/agent.js";
 
 export async function anaylzeRepository(req  :Request , res: Response){
      
@@ -15,15 +15,29 @@ export async function anaylzeRepository(req  :Request , res: Response){
              })
         }
 
-        
 
+
+        const result =  parseGitHubURL(githubURL);
+
+        if(!result){
+
+            return res.status(400).json({
+                success : false,
+                message  :'Invalid githubURL'
+            })
+        }
+
+        const {owner , repo} = result;
         
+        //@ts-ignore
+        const dockerFile = await CreateDockerFileAgent(owner , repo);
         
 
 
         return res.status(200).json({
             success : true,
-            message :' URL received successfully '
+            message :' Docker file created successfully ',
+            file : dockerFile
         })
 
 
